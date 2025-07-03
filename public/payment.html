@@ -1,0 +1,1997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Finance Carsales - Payment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ===== BASE STYLES ===== */
+        :root {
+            /* Color Palette */
+            --primary: #e63946;
+            --primary-light: #ff758f;
+            --primary-dark: #c1121f;
+            --secondary: #457b9d;
+            --dark: #1d3557;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border: #dee2e6;
+            --success: #52b788;
+            --warning: #ffc107;
+           
+            /* Typography */
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+           
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+           
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+        }
+
+        body.loading {
+            overflow: hidden;
+        }
+        /* Navbar Styles */
+ .navbar {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+       
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+       
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+            text-decoration: none;
+        }
+       
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+       
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+       
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+       
+        .nav-links a:hover {
+            color: var(--primary-light);
+        }
+       
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+       
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+       
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+       
+        .auth-buttons a {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+       
+        .login-btn {
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+       
+        .login-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+       
+        .register-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+       
+        .register-btn:hover {
+            background-color: var(--primary-dark);
+        }
+       
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+       
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background-color: black;
+        }
+        .nav-links  .live {
+          color: var(--primary-light);
+          font-weight: 600;
+          transition: all 0.3s ease;
+          transform: translateY(-2px);
+        }
+        .nav-links  .live::after{
+          width: 100%;
+          background-color: var(--primary-light);
+        }
+
+        .loading-spinner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255,255,255,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--light-gray);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+        }
+
+        .text-center { text-align: center; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .hidden { display: none; }
+
+        /* ===== COMPONENT STYLES ===== */
+        /* Navbar */
+        /* Navbar Styles */
+        .navbar {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+       
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+       
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+            text-decoration: none;
+        }
+       
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+       
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+       
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+       
+        .nav-links a:hover {
+            color: var(--primary-light);
+        }
+       
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+       
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+       
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+       
+        .auth-buttons a {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+       
+        .login-btn {
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+       
+        .login-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+       
+        .register-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+       
+        .register-btn:hover {
+            background-color: var(--primary-dark);
+        }
+       
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+       
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background-color: black;
+        }
+        .nav-links  .live {
+          color: var(--primary-light);
+          font-weight: 600;
+          transition: all 0.3s ease;
+          transform: translateY(-2px);
+        }
+        .nav-links  .live::after{
+          width: 100%;
+          background-color: var(--primary-light);
+        }
+
+        /* Payment Page Styles */
+        .payment-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1583&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: var(--space-xl) var(--space-md);
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .payment-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-sm);
+            font-family: var(--font-heading);
+        }
+
+        .payment-header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Payment Container */
+        .payment-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--space-xl);
+            margin-bottom: var(--space-xl);
+        }
+
+        @media (min-width: 992px) {
+            .payment-container {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        /* Vehicle Summary */
+        .vehicle-summary {
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--space-lg);
+        }
+
+        .vehicle-summary-header {
+            background-color: var(--dark);
+            color: white;
+            padding: var(--space-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .vehicle-summary-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .vehicle-summary-content {
+            padding: var(--space-lg);
+        }
+
+        .vehicle-summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .vehicle-summary-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            background-color: var(--light-gray);
+        }
+
+        .vehicle-summary-details h3 {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-sm);
+            font-family: var(--font-heading);
+        }
+
+        .vehicle-summary-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-md);
+            color: var(--gray);
+        }
+
+        .vehicle-summary-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .vehicle-summary-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: var(--space-md);
+        }
+
+        /* Payment Options */
+        .payment-options {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .payment-options-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-lg);
+            font-family: var(--font-heading);
+            color: var(--dark);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .payment-method {
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: var(--space-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .payment-method.active {
+            border-color: var(--primary);
+            background-color: rgba(230, 57, 70, 0.05);
+        }
+
+        .payment-method i {
+            font-size: 2rem;
+            margin-bottom: var(--space-sm);
+            color: var(--primary);
+        }
+
+        .payment-method h4 {
+            margin-bottom: var(--space-xs);
+        }
+
+        .payment-method p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Payment Form */
+        .payment-form {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-lg);
+        }
+
+        .payment-form-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-lg);
+            font-family: var(--font-heading);
+            color: var(--dark);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-xs);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: var(--space-sm) var(--space-md);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-lg);
+        }
+
+        .contact-form-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-lg);
+            font-family: var(--font-heading);
+            color: var(--dark);
+        }
+
+            /* Add these to your existing styles */
+.vehicle-summary-image-container {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background-color: var(--light-gray);
+}
+
+.vehicle-summary-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.payment-method {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.payment-method:hover {
+    transform: translateY(-3px);
+}
+
+.payment-method.active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+        /* Submission Options */
+        .submission-options {
+            margin-top: var(--space-lg);
+            border-top: 1px solid var(--border);
+            padding-top: var(--space-md);
+        }
+
+        .submission-options-title {
+            font-size: 1.1rem;
+            margin-bottom: var(--space-md);
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .submission-methods {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .submission-method {
+            flex: 1;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: var(--space-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .submission-method:hover {
+            border-color: var(--primary);
+        }
+
+        .submission-method.active {
+            border-color: var(--primary);
+            background-color: rgba(230, 57, 70, 0.05);
+        }
+
+        .submission-method i {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .submission-method h4 {
+            margin-bottom: var(--space-xs);
+        }
+
+        .submission-method p {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        /* Payment Summary */
+        .payment-summary {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-lg);
+            position: sticky;
+            top: var(--space-lg);
+        }
+
+        .payment-summary-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-lg);
+            font-family: var(--font-heading);
+            color: var(--dark);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-sm);
+            padding-bottom: var(--space-sm);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .summary-total {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: var(--space-md);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-md) var(--space-lg);
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            gap: var(--space-sm);
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(230, 57, 70, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #3a6a8a;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Payment Method Icons */
+        .payment-icon {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: var(--space-sm);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: var(--space-lg);
+            border-radius: 0.5rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-md);
+            color: var(--dark);
+            font-family: var(--font-heading);
+        }
+
+        .modal-message {
+            margin-bottom: var(--space-lg);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: flex-end;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 1rem;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .footer-about {
+            max-width: 300px;
+        }
+
+        .footer-about p {
+            color: var(--light-gray);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-heading {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-links a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .newsletter p {
+            color: var(--light-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .newsletter-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .newsletter-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .payment-header h1 {
+                font-size: 2rem;
+            }
+           
+            .payment-header p {
+                font-size: 1rem;
+            }
+           
+            .vehicle-summary-grid {
+                grid-template-columns: 1fr;
+            }
+           
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+           
+            .payment-methods {
+                grid-template-columns: 1fr 1fr;
+            }
+           
+            .submission-methods {
+                flex-direction: column;
+            }
+            .hamburger {
+                display: block;
+            }
+          
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--dark);
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                clip-path: circle(0px at 90% -10%);
+                transition: clip-path 0.5s ease-out;
+                pointer-events: none;
+            }
+          
+            .nav-links.active {
+                clip-path: circle(1000px at 90% -10%);
+                pointer-events: all;
+            }
+          
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+                padding: 1rem;
+            }
+          
+            .auth-buttons {
+                flex-direction: column;
+                width: 100%;
+                padding: 1rem;
+            }
+          
+            .auth-buttons a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner hidden" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navbar -->
+    <!-- Same navbar as your inventory page -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="inventory.html" class="logo">
+        <i class="fas fa-car logo-icon"></i>
+        <span>Auto Finance Carsales</span>
+    </a>
+      <div class="nav-links" id="navLinks">
+        <div class="live">
+        <a href="home.html"><i class=" fas fa-home"></i> Home</a></div>
+        <a href="inventory.html"><i class="fas fa-car"></i> Inventory</a>
+        <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+          <a href="register.html" class="register-btn"><i class="fas fa-user-plus"></i> Register</a>
+        </div>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </nav>
+
+    <!-- Payment Header -->
+    <header class="payment-header">
+        <div class="container">
+            <h1>Complete Your Purchase</h1>
+            <p>Secure your dream vehicle with our easy payment process</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="payment-container">
+            <!-- Left Column - Payment Form -->
+            <div class="payment-left">
+                <!-- Vehicle Summary -->
+                <div class="vehicle-summary" id="vehicleSummary">
+                    <div class="vehicle-summary-header">
+                        <div class="vehicle-summary-title">Vehicle Summary</div>
+                        <div class="vehicle-summary-edit"><a href="#" id="editVehicleBtn">Edit</a></div>
+                    </div>
+                    <div class="vehicle-summary-content">
+                        <div class="vehicle-summary-grid">
+                            <div>
+                                <img id="vehicleImage" src="" alt="Vehicle" class="vehicle-summary-image">
+                            </div>
+                            <div class="vehicle-summary-details">
+                                <h3 id="vehicleTitle"></h3>
+                                <div class="vehicle-summary-meta">
+                                    <span id="vehicleMileage"></span>
+                                    <span id="vehicleTransmission"></span>
+                                    <span id="vehicleColor"></span>
+                                </div>
+                                <div class="vehicle-summary-price" id="vehiclePrice"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Options -->
+                <div class="payment-options">
+                    <h2 class="payment-options-title">Select Payment Method</h2>
+                    <div class="payment-methods">
+                        <div class="payment-method" data-method="cashapp">
+                            <img src="img/cash.jpg" alt="Cash App" class="payment-icon" >
+                            <h4>Cash App</h4>
+                            <p>Send payment to $AutoFinance</p>
+                        </div>
+                        <div class="payment-method" data-method="chime">
+                            <img src="img/chime.jpg" alt="Chime" class="payment-icon" >
+                            <h4>Chime</h4>
+                            <p>Pay with Chime account</p>
+                        </div>
+                        <div class="payment-method" data-method="creditcard">
+                            <img src="img/card.jpg" alt="CreditCard" class="payment-icon" >
+                            <h4>Credit Card</h4>
+                            <p>Pay with Credit Card</p>
+                        </div>
+                        <div class="payment-method" data-method="zelle">
+                            <img src="img/zelle.jpg" alt="Zelle" class="payment-icon">
+                            <h4>Zelle</h4>
+                            <p>Send to sales@autofinance.com</p>
+                        </div>
+                        <div class="payment-method" data-method="applepay">
+                            <img src="img/apple.jpg" alt="Apple Pay" class="payment-icon" >
+                            <h4>Apple Pay</h4>
+                            <p>Pay with Apple device</p>
+                        </div>
+                        <div class="payment-method" data-method="paypal">
+                            <img src="img/paypal.jpg" alt="PayPal" class="payment-icon">
+                            <h4>PayPal</h4>
+                            <p>Pay with PayPal account</p>
+                        </div>
+                        <div class="payment-method" data-method="varo">
+                            <img src="img/varo.jpg" alt="Varo" class="payment-icon" >
+                            <h4>Varo</h4>
+                            <p>Pay with Varo account</p>
+                        </div>
+                        <div class="payment-method" data-method="giftcard">
+                            <img src="img/gift.jpg" alt="giftcard" class="payment-icon" >
+                            <h4>Gift Cards</h4>
+                            <p>Redeem gift card balance</p>
+                        </div>
+                        <div class="payment-method" data-method="banktransfer">
+                            <img src="img/bank.jpg" alt="banktransfer" class="payment-icon" >
+                            <h4>Bank Transfer</h4>
+                            <p>Direct bank transfer</p>PP
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form" id="contactForm">
+                    <h2 class="contact-form-title">Contact Us to Complete Payment</h2>
+                    <form id="messageForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" id="firstName" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" id="lastName" class="form-control" required>
+                            </div>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="paymentMethod" class="form-label">Selected Payment Method</label>
+                            <input type="text" id="paymentMethod" class="form-control" readonly required>
+                        </div>
+                       
+                        <div class="form-group">
+                            <label for="messageText" class="form-label">Your Message</label>
+                            <textarea id="messageText" class="form-control" rows="4" required>I would like to proceed with payment for this vehicle. Please provide instructions for completing the transaction with my selected payment method.</textarea>
+                        </div>
+                       
+                        <!-- Submission Options -->
+                        <div class="submission-options">
+                            <div class="submission-options-title">Choose how to submit your information:</div>
+                            <div class="submission-methods">
+                                <div class="submission-method" data-method="telegram">
+                                    <i class="fab fa-telegram"></i>
+                                    <h4>Telegram</h4>
+                                    <p>Send via Telegram messenger</p>
+                                </div>
+                                <div class="submission-method" data-method="sms">
+                                    <i class="fas fa-sms"></i>
+                                    <h4>SMS</h4>
+                                    <p>Send via text message</p>
+                                </div>
+                            </div>
+                            <input type="hidden" id="submissionMethod" value="">
+                        </div>
+                       
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Submit Payment Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column - Order Summary -->
+            <div class="payment-right">
+                <div class="payment-summary">
+                    <h2 class="payment-summary-title">Order Summary</h2>
+                    <div class="summary-item">
+                        <span>Vehicle Price</span>
+                        <span id="summaryPrice"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Sales Tax (7%)</span>
+                        <span id="summaryTax"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Document Fee</span>
+                        <span>$150.00</span>
+                    </div>
+                    <div class="summary-item">
+                        <span>Registration</span>
+                        <span>$85.00</span>
+                    </div>
+                    <div class="summary-item summary-total">
+                        <span>Total Amount</span>
+                        <span id="summaryTotal"></span>
+                    </div>
+                   
+                    <div class="form-group" style="margin-top: var(--space-lg);">
+                        <button type="button" class="btn btn-outline" id="backToInventoryBtn">
+                            <i class="fas fa-arrow-left"></i> Back to Inventory
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Submission Modal -->
+    <div class="modal" id="submissionModal">
+        <div class="modal-content">
+            <h3 class="modal-title" id="modalTitle">Submit via Telegram</h3>
+            <div class="modal-message" id="modalMessage">
+                Your information will be sent via Telegram. Click "Proceed" to continue.
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-outline" id="modalCancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="modalConfirm">Proceed</button>
+            </div>
+        </div>
+    </div>
+
+     <footer class="footer">
+    <div class="footer-container">
+      <!-- About Section -->
+      <div class="footer-section">
+        <div class="footer-logo">
+          <span class="footer-logo-icon">🚗</span>
+          <span>Auto Finance Carsales</span>
+        </div>
+        <div class="footer-about">
+          <p>Your premier destination for affordable luxury and high-performance vehicles. We provide quality pre-owned cars with thorough inspections.</p>
+          <div class="social-links">
+            <a href="https://t.me/carsforsaleunder3000" class="social-link" aria-label="Telegram"> <i class="fab fa-telegram contact-icon"></i></a>
+            <a href="Sac5awosangrooney@gmail.com" class="social-link" aria-label="Email"> <i class="fas fa-envelope contact-icon"></i></a>
+          </div>
+        </div>
+      </div>
+  
+     
+  
+      <!-- Newsletter -->
+      <div class="footer-section newsletter">
+        <h3 class="footer-heading">Newsletter</h3>
+        <p>Subscribe to receive updates on new arrivals, special offers, and automotive tips.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" class="newsletter-input" placeholder="Your email address" required>
+          <button type="submit" class="newsletter-btn">
+            <i class="fas fa-paper-plane"></i><a href="Sac5awosangrooney@gmail.com"></a>
+          </button>
+        </form>
+        <div id="newsletterMessage" class="newsletter-message"></div>
+      </div>
+    </div>
+  
+    <div class="footer-bottom">
+      <p>&copy; <span id="currentYear"></span> Auto Finance Carsales. All Rights Reserved. |
+        <a href="privacy.html">Privacy Policy</a> |
+        <a href="terms.html">Terms of Service</a>
+      </p>
+    </div>
+  </footer>
+
+
+    <script>
+// Mobile menu toggle
+const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+    }
+    // Highlight active nav link based on current page
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPage = window.location.pathname.split('/').pop() || 'home.html';
+    const navLinks = document.querySelectorAll('.nav-links a');
+   
+    navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href');
+        if (currentPage === linkPage) {
+            link.classList.add('live');
+        } else {
+            link.classList.remove('live');
+        }
+    });
+});
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show loading spinner
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            loadingSpinner.classList.remove('hidden');
+            document.body.classList.add('loading');
+
+            // Get car ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const carId = parseInt(urlParams.get('id'));
+
+            // Sample car data (in a real app, this would come from an API)
+            const cars = [
+                {
+                    id: 1,
+                    make: "Dodge",
+                    model: "Durango SRT",
+                    year: 2018,
+                    price: 4000,
+                    downPayment: 500,
+                    monthlyPayment: 120,
+                    mileage: 237708,
+                    type: "sedan",
+                    transmission: "automatic",
+                    color: "White",
+                    fuelType: "gasoline",
+                    features: ["Power Windows", "Power Locks", "AM/FM Radio", "Air Conditioning","Sunroof"],
+                    image: "img/2.jpg",
+                    likes: 42,
+                    isLiked: false,
+                    isFeatured: true,
+                    isReserved: false,
+                    details: "This 2018 Dodge Durango SRT is in good running condition with a clean interior. The 2.4L 4-cylinder engine runs smoothly and the automatic transmission shifts properly. Recent maintenance includes new brakes and tires."
+                },
+                {
+                    id: 2,
+                make: "Lexus",
+                model: " LS500h",
+                year: 2018,
+                price:2000,
+                downPayment: 300,
+                monthlyPayment: 150,
+                mileage: 38000,
+                type: "sedan",
+                transmission: "automatic",
+                color: "Liquid Platinum Paint",
+                fuelType: "hybrid",
+                features: ["Leather Seats", "Navigation","Sunroof","LED Exterior Lighting", "Parking Sensors"],
+                image: "img/1.jpg",
+                likes: 38,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: true,
+                details: "Black Leather Upholstery, Multi Stage Hybrid Transmission, 20 Alloy Wheels,Adjustable Air Suspension,Climatized Front Seats w/Massage,Heated & Ventilated Rear Seats,Head-Up Display,12.3 Touchscreen Infotainment System"
+                },
+                {
+                id: 3,
+                make: "Kia",
+                model: "Optima",
+                year: 2013,
+                price: 1500,
+                downPayment: 300,
+                monthlyPayment: 200,
+                mileage: 89000,
+                type: "Suv",
+                transmission: "automatic",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["Navigation", "Backup Camera"],
+                image:"img/3.jpg",
+                likes: 56,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: false,
+                details: "1 owner,Clean title ,Engine and transmission works perfectly ,Fully loaded ,New tires and brakes,No issues,Runs smoothly,Super clean,No mechanical issues "
+            },
+            {
+                id: 4,
+                make: "Nissan",
+                model: "altima",
+                year: 2012,
+                price: 1500,
+                downPayment: 300,
+                monthlyPayment: 180,
+                mileage: 72000,
+                type: "suv",
+                transmission: "automatic",
+                color: "red",
+                fuelType: "gasoline",
+                features: ["Sunroof", "Backup Camera", "Bluetooth","Push start","Leather eat"],
+                image: "img/4.jpg",
+                likes: 29,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "excellent condition,Ac blows cold,4 cylinder,Fully loaded,Clean inside out,No accident recorded"
+            },
+            {
+                id: 5,
+                make: "Chevrole",
+                model: "SS Sedan",
+                year: 2015,
+                price: 2000,
+                downPayment: 200,
+                monthlyPayment: 140,
+                mileage: 88000,
+                type: "suv",
+                transmission: "cvt",
+                color: "sliver",
+                fuelType: "gasoline",
+                features: ["Navigation","Supercharger System:Magnuson 2650 Supercharger","Nick Williams 120mm Throttle Body"],
+                image:  "img/5.jpg",
+                likes: 96,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "One owner, no accidents, Fuel System:Injector Dynamics ID1300 Fuel Injectors,Fore Innovations Triple Pump Fuel System w/ 255lph Pumps ,Exhaust,Drivetrain,Built 6L80E "
+            },
+             {
+                id: 6,
+                make: "Dodge",
+                model: "charger rt",
+                year: 2018,
+                price: 2500,
+                downPayment: 300,
+                monthlyPayment: 200,
+                mileage: 78000,
+                type: "sedan",
+                transmission: "automatic",
+                color: "blue",
+                fuelType: "gasoline",
+                features: ["Leather seat", "Navigation", "Backup Camera","Parking Sensors"],
+                image: "img/6.jpg",
+                likes: 67,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: false,
+                details: "runs and drives out great,Tinted all the way around ,stock exhaust ,Heated mirrors ,Heated seats,Runs and drive great,No mechanical issues "
+            },
+            {
+                id: 7,
+                make: "Toyota",
+                model: "camry TRD",
+                year: 2020,
+                price: 2000,
+                downPayment: 300,
+                monthlyPayment: 250,
+                mileage: 91000,
+                type: "sedan",
+                transmission: "automatic",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["Leather seat", "Navigation","V6 over 300hp"],
+                image:  "img/7.jpg",
+                likes: 58,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: true,
+                details: "runs and drives out great,Tinted all the way around ,Runs and drive great,No mechanical issues "
+            },
+            {
+                 id: 8,
+                make: "chrysler",
+                model: "300 · Srt Hellcat",
+                year: 2015,
+                price: 2000,
+                downPayment: 300,
+                monthlyPayment: 160,
+                mileage: 23000,
+                type: "sedan",
+                transmission: "atomatic",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["Leather seat","sunroof", "Navigation", "Bluetooth"],
+                image: "img/8.jpg",
+                likes: 34,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Like new,Trim,Clean title,Runs great ,Srt Hellcat,This vehicle has no significant damage or problems."
+            },
+             {
+                id: 9,
+                make: "dodge",
+                model: "Charger ScatPack SRT",
+                year: 2019,
+                price: 3000,
+                downPayment: 400,
+                monthlyPayment: 290,
+                mileage: 60000,
+                type: "suv",
+                transmission: "automatic",
+                color: "white",
+                fuelType: "hybrid",
+                features: ["Navigation","Blindspot Sensor", "Backup Camera","Power tint windows","Bluetooth"],
+                image: "img/9.jpg",
+                likes: 47,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Hybrid model, excellent fuel economy,Clean title,6.4L V8,Good airbags,Paddles Shifters,Stability Control,Traction Control,,Uconnect,Fog lights,Rear Spoiler,More extras"
+            },
+            {
+                id: 10,
+                make: "jeep",
+                model: "Grand Cherokee SRT",
+                year: 2019,
+                price: 2000,
+                downPayment: 350,
+                monthlyPayment: 210,
+                mileage: 66500,
+                type: "suv",
+                transmission: "automatic",
+                color: "Granite Crystal Metallic",
+                fuelType: "gasoline",
+                features: ["Leather","8-Speed","Engine,6.4L V8"],
+                image:  "img/10.jpg",
+                likes: 72,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: false,
+                details: ",Drivetrain:4WD/AWD,Body Style:SUV/Crossover,Exterior Color:Granite Crystal Metallic,Interior Color:Black/Sepia,Clean"
+            },
+             {
+                id: 11,
+                make: "chrysler",
+                model: "300C Base",
+                year: 2014,
+                price: 2799,
+                downPayment: 370,
+                monthlyPayment: 240,
+                mileage: 150461,
+                type: "coupe",
+                transmission: "automatic",
+                color: "White",
+                fuelType: "gasoline",
+                features: ["Leather seat", "Navigation","8-Speed A/T","292.0HP"],
+                image: "img/11.jpg",
+                likes: 63,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Interior color:Beige,Exterior color:White,Drivetrain,Rear-wheel Drive,MPG / fuel type:19 - 30 / Gasoline,Transmission,Engine: 3.6L V6 Cylinder:Engine Gasoline Fuel,VIN:2C3CCAEG7EH310234"
+            },
+             {
+                id: 12,
+                make: "bmw",
+                model: "3 series",
+                year: 2009,
+                price: 4000,
+                downPayment: 320,
+                monthlyPayment: 200,
+                mileage: 100000,
+                type: "sedan",
+                transmission: "manual",
+                color: "space gray metallic",
+                fuelType: "gasoline",
+                features: ["Leather", "Navigation", "6 speed", "Backup Camera"],
+                image: "img/12.jpg",
+                likes: 51,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: false,
+                details: "Drivetrain:Rear-Wheel drive,Interior color:Black,Exterior color:space gray metallic, clean(FL)"
+            },
+             {
+                id: 13,
+                make: "lexus",
+                model: "LS 430",
+                year: 2002,
+                price: 2000,
+                downPayment: 200,
+                monthlyPayment: 140,
+                mileage: 65000,
+                type: "sedan",
+                transmission: "automatic",
+                color: "black",
+                fuelType: "hybrid",
+                features: ["Backup Camera","5-speed","Engine:4.3L V8"],
+                image: "img/13.jpg",
+                likes: 28,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details:"Drivetrain:Rear-Wheel drive,Interior color:Ecru,Exterior color:Black, clean(FL)"
+            },
+             {
+                id: 14,
+                make: "nissan",
+                model: "Titan SE 4x4",
+                year: 2004,
+                price: 3500,
+                downPayment: 400,
+                monthlyPayment: 240,
+                mileage: 91000,
+                type: "truck",
+                transmission: "automated",
+                color: "Radiant sliver",
+                fuelType: "gasoline",
+                features: ["5-speed","4WD/AWD"],
+                image:  "img/14.jpg",
+                likes: 15,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:4WD/AWD,Interior color:Gray,Exterior color:Radiant sliver, clean(FL)"
+            },
+            {
+                id: 15,
+                make: "toyota",
+                model: "MR2 Spyder",
+                year: 2000,
+                price: 2322,
+                downPayment: 200,
+                monthlyPayment: 140,
+                mileage: 121200,
+                type: "convertible",
+                transmission: "manual",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["6-speed","Engine:2.4L I4"],
+                image:  "img/15.jpg",
+                likes: 55,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:Rear-Wheel drive,Interior color:Black,Exterior color:Black, clean(CA)"
+            },
+             {
+                id: 16,
+                make: "mercedes",
+                model: "Benz SL550",
+                year: 2007,
+                price: 5000,
+                downPayment: 300,
+                monthlyPayment: 200,
+                mileage: 63200,
+                type: "convertible",
+                transmission: "automatic",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["7-speed","Engine:5.5L V8"],
+                image:  "img/16.jpg",
+                likes: 105,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:Rear-Wheel drive,Interior color:Almond,Exterior color:Black, clean(CA)"
+            },
+             {
+                id: 17,
+                make: "mercedes",
+                model: "Benz S600",
+                year: 2011,
+                price: 4500,
+                downPayment: 350,
+                monthlyPayment: 180,
+                mileage: 91800,
+                type: "sedan",
+                transmission: "automatic",
+                color: "White",
+                fuelType: "gasoline",
+                features: ["5-speed","Engine:5.5L Turbocharged V12"],
+                image:  "img/17.jpg",
+                likes: 85,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:Rear-Wheel drive,Interior color:White/Black,Exterior color:Diamond White Metallic, clean(CA)"
+            },
+             {
+                id: 18,
+                make: "ford",
+                model: "Mustang GT Coupe",
+                year: 2011,
+                price: 2500,
+                downPayment: 200,
+                monthlyPayment: 140,
+                mileage: 129500,
+                type: "coupe",
+                transmission: "manual",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["6-speed","Engine:5.0L V8"],
+                image:  "img/18.jpg",
+                likes: 55,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:Rear-Wheel drive,Interior color:Charoal Black,Exterior color:Black, clean(CA)"
+            },
+            {
+                id: 19,
+                make: "audi",
+                model: "Q7 TDI",
+                year:2015 ,
+                price: 4580,
+                downPayment: 350,
+                monthlyPayment: 240,
+                mileage: 88700,
+                type: "suv",
+                transmission: "automatic",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["8-speed","Engine:3.0L V6"],
+                image:  "img/19.jpg",
+                likes: 75,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:4WD/AWD,Interior color:Black,Exterior color:Orca Black Metallic, clean(FL)"
+            },
+            {
+                id: 20,
+                make: "audi",
+                model: "RS3",
+                year: 2019,
+                price: 6000,
+                downPayment: 400,
+                monthlyPayment: 250,
+                mileage: 81200,
+                type: "sedan",
+                transmission: "automatic",
+                color: "white",
+                fuelType: "gasoline",
+                features: ["7-speed","Engine:2.5L Turbocharged I5"],
+                image:  "img/20.jpg",
+                likes: 155,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:4WD/AWD,Interior color:Black,Exterior color:Glacier White Metallic, clean(CA)"
+            },
+            ];
+
+            // Find the selected car
+            const selectedCar = cars.find(car => car.id === carId);
+
+            // DOM Elements
+            const vehicleImage = document.getElementById('vehicleImage');
+            const vehicleTitle = document.getElementById('vehicleTitle');
+            const vehicleMileage = document.getElementById('vehicleMileage');
+            const vehicleTransmission = document.getElementById('vehicleTransmission');
+            const vehicleColor = document.getElementById('vehicleColor');
+            const vehiclePrice = document.getElementById('vehiclePrice');
+            const summaryPrice = document.getElementById('summaryPrice');
+            const summaryTax = document.getElementById('summaryTax');
+            const summaryTotal = document.getElementById('summaryTotal');
+            const paymentMethods = document.querySelectorAll('.payment-method');
+            const paymentMethodInput = document.getElementById('paymentMethod');
+            const messageForm = document.getElementById('messageForm');
+            const backToInventoryBtn = document.getElementById('backToInventoryBtn');
+            const editVehicleBtn = document.getElementById('editVehicleBtn');
+           
+            // New variables for submission handling
+            const submissionMethods = document.querySelectorAll('.submission-method');
+            const submissionMethodInput = document.getElementById('submissionMethod');
+            const submissionModal = document.getElementById('submissionModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalCancel = document.getElementById('modalCancel');
+            const modalConfirm = document.getElementById('modalConfirm');
+           
+            // Telegram and SMS configuration
+            const telegramUsername = 'carsforsaleunder3000'; // Replace with your Telegram username
+            const smsNumber = '+14704998139'; // Replace with your SMS number
+
+            // Initialize the page
+            if (!selectedCar) {
+                window.location.href = 'inventory.html';
+                return;
+            }
+
+            // Display car details
+            function displayCarDetails(car) {
+                vehicleImage.src = car.image;
+                vehicleImage.alt = `${car.year} ${car.make} ${car.model}`;
+                vehicleImage.onerror = function() {
+                    this.src = 'https://via.placeholder.com/300x200?text=Vehicle+Image';
+                };
+                vehicleTitle.textContent = `${car.year} ${capitalizeFirstLetter(car.make)} ${capitalizeFirstLetter(car.model)}`;
+                vehicleMileage.innerHTML = `<i class="fas fa-tachometer-alt"></i> ${car.mileage.toLocaleString()} miles`;
+                vehicleTransmission.innerHTML = `<i class="fas fa-car"></i> ${capitalizeFirstLetter(car.transmission)} Transmission`;
+                vehicleColor.innerHTML = `<i class="fas fa-paint-brush"></i> ${capitalizeFirstLetter(car.color)}`;
+                vehiclePrice.textContent = `$${car.price.toLocaleString()}`;
+            }
+
+            // Calculate order totals
+            function calculateTotals(car) {
+                const tax = car.price * 0.07; // 7% sales tax
+                const total = car.price + tax + 150 + 85; // Price + tax + doc fee + registration
+               
+                summaryPrice.textContent = `$${car.price.toLocaleString()}`;
+                summaryTax.textContent = `$${tax.toFixed(2)}`;
+                summaryTotal.textContent = `$${total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            }
+
+            // Helper function to capitalize first letter
+            function capitalizeFirstLetter(string) {
+                return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+            }
+
+            // Initialize page
+            displayCarDetails(selectedCar);
+            calculateTotals(selectedCar);
+
+            // Payment method selection
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    // Remove active class from all methods
+                    paymentMethods.forEach(m => {
+                        m.classList.remove('active');
+                        m.style.transform = 'scale(1)';
+                    });
+                   
+                    // Add active class to clicked method
+                    this.classList.add('active');
+                    this.style.transform = 'scale(0.98)';
+                   
+                    // Update payment method input
+                    const methodName = this.querySelector('h4').textContent;
+                    paymentMethodInput.value = methodName;
+                   
+                    // Reset transform after animation
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 200);
+                });
+            });
+
+            // Submission method selection
+            submissionMethods.forEach(method => {
+                method.addEventListener('click', function() {
+                    // Remove active class from all methods
+                    submissionMethods.forEach(m => m.classList.remove('active'));
+                   
+                    // Add active class to clicked method
+                    this.classList.add('active');
+                   
+                    // Update submission method input
+                    const methodType = this.getAttribute('data-method');
+                    submissionMethodInput.value = methodType;
+                });
+            });
+
+            // Back to inventory button
+            backToInventoryBtn.addEventListener('click', function() {
+                window.location.href = 'inventory.html';
+            });
+
+            // Edit vehicle button
+            editVehicleBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'inventory.html';
+            });
+
+            // Contact form submission
+            messageForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+               
+                // Validate form
+                if (!paymentMethodInput.value) {
+                    alert('Please select a payment method before submitting');
+                    return;
+                }
+               
+                if (!submissionMethodInput.value) {
+                    alert('Please choose how you want to submit your information');
+                    return;
+                }
+               
+                // Get form values
+                const firstName = document.getElementById('firstName').value;
+                const lastName = document.getElementById('lastName').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const paymentMethod = paymentMethodInput.value;
+                const message = document.getElementById('messageText').value;
+                const submissionMethod = submissionMethodInput.value;
+               
+                // Create the message to be sent (URL encoded)
+                const fullMessage = `New Payment Request for ${vehicleTitle.textContent} (${vehiclePrice.textContent}):%0A%0A` +
+                                   `Customer: ${firstName} ${lastName}%0A` +
+                                   `Email: ${email}%0A` +
+                                   `Phone: ${phone}%0A%0A` +
+                                   `Selected Payment Method: ${paymentMethod}%0A%0A` +
+                                   `Message:%0A${encodeURIComponent(message)}%0A%0A` +
+                                   `Vehicle Details:%0A` +
+                                   `- ${vehicleMileage.textContent}%0A` +
+                                   `- ${vehicleTransmission.textContent}%0A` +
+                                   `- ${vehicleColor.textContent}%0A%0A` +
+                                   `Order Summary:%0A` +
+                                   `- Vehicle Price: ${summaryPrice.textContent}%0A` +
+                                   `- Sales Tax: ${summaryTax.textContent}%0A` +
+                                   `- Document Fee: $150.00%0A` +
+                                   `- Registration: $85.00%0A` +
+                                   `- Total Amount: ${summaryTotal.textContent}`;
+               
+                // Show confirmation modal based on submission method
+                if (submissionMethod === 'telegram') {
+                    modalTitle.textContent = 'Submit via Telegram';
+                    modalMessage.innerHTML = `Your information will be sent to our Telegram bot. <strong>Click "Proceed" to open Telegram and send your details.</strong>`;
+                } else {
+                    modalTitle.textContent = 'Submit via SMS';
+                    modalMessage.innerHTML = `Your information will be sent via text message. <strong>Click "Proceed" to open your messaging app.</strong>`;
+                }
+               
+                submissionModal.style.display = 'flex';
+               
+                // Set up modal actions
+                modalCancel.onclick = function() {
+                    submissionModal.style.display = 'none';
+                };
+               
+                modalConfirm.onclick = function() {
+                    if (submissionMethod === 'telegram') {
+                        // Open Telegram with pre-filled message
+                        window.open(`https://t.me/${carsforsaleunder3000}?start=${encodeURIComponent(fullMessage)}`, '_blank');
+                    } else {
+                        // Open SMS with pre-filled message
+                        window.open(`sms:${+14704998139}?body=${fullMessage}`, '_blank');
+                    }
+                   
+                    // Show confirmation
+                    alert('Your payment request has been submitted! We will contact you shortly.');
+                   
+                    // Reset form
+                    messageForm.reset();
+                    paymentMethods.forEach(m => m.classList.remove('active'));
+                    submissionMethods.forEach(m => m.classList.remove('active'));
+                    paymentMethodInput.value = '';
+                    submissionMethodInput.value = '';
+                   
+                    // Close modal
+                    submissionModal.style.display = 'none';
+                   
+                    // Redirect to thank you page
+                    window.location.href = 'thank-you.html';
+                };
+            });
+
+            // Newsletter form
+            document.getElementById('newsletterForm')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const messageEl = document.getElementById('newsletterMessage');
+                messageEl.textContent = 'Thank you for subscribing!';
+                messageEl.style.color = 'var(--success)';
+                this.reset();
+               
+                setTimeout(() => {
+                    messageEl.textContent = '';
+                }, 5000);
+            });
+
+            // Update copyright year
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // Hide loading spinner when everything is loaded
+            window.addEventListener('load', function() {
+                loadingSpinner.classList.add('hidden');
+                document.body.classList.remove('loading');
+            });
+
+            // Fallback in case load event doesn't fire
+            setTimeout(function() {
+                loadingSpinner.classList.add('hidden');
+                document.body.classList.remove('loading');
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

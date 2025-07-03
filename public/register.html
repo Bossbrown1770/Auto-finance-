@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Finance Carsales - Register</title>
+    <meta name="description" content="Create a new Auto Finance Carsales account">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner hidden" id="loadingSpinner">
+        <div class="spinner" aria-hidden="true"></div>
+        <span class="sr-only">Loading...</span>
+    </div>
+
+    <!-- Auth Header -->
+    <header class="auth-header">
+        <div class="container">
+            <div class="auth-logo">AutoElite</div>
+            <h1>Create Your Account</h1>
+            <p>Join our community to save your favorite vehicles and get personalized recommendations</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="auth-container">
+        <div class="auth-card">
+            <h2>Sign Up</h2>
+           
+            <!-- Success Message -->
+            <div class="alert alert-success hidden" id="successMessage" role="alert">
+                <i class="fas fa-check-circle" aria-hidden="true"></i> 
+                Registration successful! Redirecting...
+            </div>
+           
+            <!-- Error Message -->
+            <div class="alert alert-danger hidden" id="errorMessage" role="alert">
+                <i class="fas fa-exclamation-circle" aria-hidden="true"></i> 
+                <span id="errorText">This email is already registered</span>
+            </div>
+           
+            <form id="registerForm" novalidate>
+                <input type="hidden" id="csrfToken" name="csrfToken" value="">
+
+                <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); margin-bottom: var(--space-md);">
+                    <div class="form-group">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <input type="text" id="firstName" class="form-control" required 
+                               autocomplete="given-name" aria-describedby="firstNameHelp">
+                        <div class="invalid-feedback" id="firstNameHelp">Please enter your first name</div>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" id="lastName" class="form-control" required 
+                               autocomplete="family-name" aria-describedby="lastNameHelp">
+                        <div class="invalid-feedback" id="lastNameHelp">Please enter your last name</div>
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                    <label for="registerEmail" class="form-label">Email Address</label>
+                    <input type="email" id="registerEmail" class="form-control" required 
+                           autocomplete="email" aria-describedby="emailHelp">
+                    <div class="invalid-feedback" id="emailHelp">Please enter a valid email address</div>
+                </div>
+               
+                <div class="form-group password-toggle">
+                    <label for="registerPassword" class="form-label">Password</label>
+                    <input type="password" id="registerPassword" class="form-control" required 
+                           minlength="8" autocomplete="new-password" 
+                           aria-describedby="passwordHelp passwordStrength">
+                    <button type="button" class="password-toggle-icon" id="togglePassword" 
+                            aria-label="Show password">
+                        <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                    <div class="invalid-feedback" id="passwordHelp">
+                        Password must be at least 8 characters with a mix of letters, numbers & symbols
+                    </div>
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                    </div>
+                    <div class="form-text">Use at least 8 characters with a mix of letters, numbers & symbols</div>
+                </div>
+               
+                <div class="form-group password-toggle">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" id="confirmPassword" class="form-control" required 
+                           autocomplete="new-password" aria-describedby="confirmPasswordHelp">
+                    <button type="button" class="password-toggle-icon" id="toggleConfirmPassword" 
+                            aria-label="Show password">
+                        <i class="fas fa-eye" aria-hidden="true"></i>
+                    </button>
+                    <div class="invalid-feedback" id="confirmPasswordHelp">Passwords don't match</div>
+                </div>
+               
+                <div class="form-group">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" id="phone" class="form-control" 
+                           autocomplete="tel" aria-describedby="phoneHelp">
+                    <div class="form-text" id="phoneHelp">Optional - for order updates</div>
+                </div>
+               
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="termsAgreement" required 
+                               aria-describedby="termsHelp">
+                        <label for="termsAgreement">
+                            I agree to the <a href="terms.html">Terms of Service</a> and 
+                            <a href="privacy.html">Privacy Policy</a>
+                        </label>
+                    </div>
+                    <div class="invalid-feedback" id="termsHelp">You must agree to the terms</div>
+                </div>
+
+                <!-- CAPTCHA -->
+                <div class="captcha-container" id="captchaContainer">
+                    <div class="g-recaptcha" data-sitekey="your-site-key"></div>
+                </div>
+               
+                <button type="submit" class="btn btn-primary" id="registerButton">
+                    <i class="fas fa-user-plus" aria-hidden="true"></i> 
+                    <span>Create Account</span>
+                </button>
+            </form>
+           
+            <div class="social-login">
+                <div class="social-login-title">Or sign up with</div>
+                <div class="social-login-buttons">
+                    <button type="button" class="social-btn facebook" aria-label="Sign up with Facebook">
+                        <i class="fab fa-facebook-f" aria-hidden="true"></i> Facebook
+                    </button>
+                    <button type="button" class="social-btn google" aria-label="Sign up with Google">
+                        <i class="fab fa-google" aria-hidden="true"></i> Google
+                    </button>
+                </div>
+            </div>
+           
+            <div class="auth-footer">
+                Already have an account? <a href="login.html">Sign in</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="auth.js" defer></script>
+    <!-- reCAPTCHA -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</body>
+</html>

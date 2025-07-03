@@ -1,0 +1,10 @@
+// Security event logging
+app.use((req, res, next) => {
+  securityAudit.log({
+    ip: req.ip,
+    action: req.method + ' ' + req.path,
+    user: req.user?.id,
+    timestamp: Date.now()
+  });
+  next();
+});

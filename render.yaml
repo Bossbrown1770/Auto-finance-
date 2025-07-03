@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: auto-finance-backend
+    runtime: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: MONGODB_URI
+        value: mongodb+srv://awosangrooney01:Bossbrown1770@boss.xiahdsm.mongodb.net/awosangrooney01?retryWrites=true&w=majority
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+
+  - type: web
+    name: auto-finance-frontend
+    runtime: static
+    buildCommand: npm install && npm run build
+    publishDir: ./frontend

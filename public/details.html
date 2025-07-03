@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Finance Carsales - Vehicle Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=inter:wgh@400;500;600&family=Montserrat:wgh@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+       /* ===== BASE STYLES ===== */
+:root {
+  /* Color Palette */
+  --primary: #e63946;
+  --primary-light: #ff758f;
+  --primary-dark: #c1121f;
+  --secondary: #457b9d;
+  --dark: #1d3557;
+  --light: #f8f9fa;
+  --gray: #6c757d;
+  --light-gray: #e9ecef;
+  --border: #dee2e6;
+  --success: #52b788;
+
+  /* Typography */
+  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  line-height: 1.6;
+  color: var(--dark);
+  background-color: var(--light);
+}
+
+/* ===== UTILITY CLASSES ===== */
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+}
+
+.text-center { text-align: center; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+
+/* ===== COMPONENT STYLES ===== */
+/* Navbar */
+.navbar {
+  background-color: var(--dark);
+  color: white;
+  padding: var(--space-md) 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: var(--shadow-md);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 1.5rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+}
+
+.logo-icon {
+  font-size: 1.8rem;
+  color: var(--primary);
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  padding: var(--space-xs) 0;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 0.375rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  gap: var(--space-sm);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+.btn-outline:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+/* Vehicle Details */
+.vehicle-details {
+  padding: var(--space-xl) 0;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--primary);
+  margin-bottom: var(--space-lg);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.back-link:hover {
+  color: var(--primary-dark);
+}
+
+.vehicle-container {
+  background: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Gallery */
+.gallery-container {
+  position: relative;
+  height: 900px;
+  overflow: hidden;
+}
+
+.gallery-slides {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+
+.gallery-slide {
+  min-width: 100%;
+  height: 100%;
+}
+
+.gallery-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--space-md);
+  pointer-events: none;
+}
+
+.gallery-nav button {
+  pointer-events: all;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.gallery-nav button:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.gallery-thumbnails {
+  display: flex;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  overflow-x: auto;
+  background: var(--light-gray);
+}
+
+.gallery-thumbnail {
+  min-width: 80px;
+  height: 60px;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.gallery-thumbnail.active {
+  border-color: var(--primary);
+}
+
+.gallery-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Vehicle Info */
+.vehicle-info {
+  padding: var(--space-lg);
+}
+
+.vehicle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-lg);
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.vehicle-title {
+  font-size: 2rem;
+  font-family: var(--font-heading);
+  color: var(--dark);
+}
+
+.vehicle-price {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.vehicle-badge {
+  background-color: var(--primary);
+  color: white;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: var(--space-sm);
+}
+
+.vehicle-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--border);
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--gray);
+}
+
+.meta-item i {
+  color: var(--primary);
+  width: 20px;
+  text-align: center;
+}
+
+/* Pricing Section */
+.pricing-section {
+  background: var(--light-gray);
+  padding: var(--space-lg);
+  border-radius: 0.5rem;
+  margin: var(--space-lg) 0;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+}
+
+.pricing-card {
+  background: white;
+  padding: var(--space-md);
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+
+.pricing-title {
+  font-size: 1rem;
+  color: var(--gray);
+  margin-bottom: var(--space-sm);
+}
+
+.pricing-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.pricing-value.price {
+  color: var(--primary);
+}
+
+.reservation-badge {
+  background-color: var(--success);
+  color: white;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+  margin-top: var(--space-sm);
+}
+
+/* Features Section */
+.features-section {
+  margin: var(--space-lg) 0;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.feature-item i {
+  color: var(--primary);
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: 0.5rem;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.test-drive-btn {
+  background-color: var(--secondary);
+  color: white;
+}
+
+.test-drive-btn:hover {
+  background-color: #3a6a8a;
+}
+
+.finance-btn {
+  background-color: var(--primary);
+  color: white;
+}
+
+.finance-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.buy-btn {
+  background-color: var(--success);
+  color: white;
+}
+
+.buy-btn:hover {
+  background-color: #429c72;
+}
+
+/* Footer Styles */
+.footer {
+  background-color: var(--dark);
+  color: white;
+  padding: 3rem 1rem;
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.footer-logo-icon {
+  font-size: 2rem;
+  color: var(--primary);
+}
+
+.footer-about {
+  max-width: 300px;
+}
+
+.footer-about p {
+  color: var(--light-gray);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s;
+}
+
+.social-link:hover {
+  background-color: var(--primary);
+  transform: translateY(-3px);
+}
+
+.footer-heading {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.footer-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background-color: var(--primary);
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+  color: var(--light-gray);
+  text-decoration: none;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
+
+.footer-links a i {
+  width: 20px;
+  text-align: center;
+}
+
+.newsletter p {
+  color: var(--light-gray);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.newsletter-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.newsletter-btn {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.newsletter-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--light-gray);
+  font-size: 0.9rem;
+}
+
+.footer-bottom a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .gallery-container {
+    height: 400px;
+  }
+
+  .vehicle-title {
+    font-size: 1.75rem;
+  }
+
+  .vehicle-price {
+    font-size: 1.5rem;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .gallery-container {
+    height: 300px;
+  }
+
+  .container {
+    padding: 0 var(--space-sm);
+  }
+}
+    </style>
+</head>
+
+  <body>
+    
+ 
+ 
+    <!-- Vehicle Details Section -->
+    <main class="vehicle-details container">
+      <div class="btn">
+        <a href="inventory.html" class="back-link" id="backLink">
+            <i class="fas fa-arrow-left"></i> Back to Inventory
+        </a>
+      </div>
+        <div class="vehicle-container" id="vehicleContainer">
+            <!-- Content will be dynamically inserted here by JavaScript -->
+            <div class="loading-message">
+                <i class="fas fa-spinner fa-spin"></i> Loading vehicle details...
+            </div>
+        </div>
+    </main>
+  
+     <footer class="footer">
+    <div class="footer-container">
+      <!-- About Section -->
+      <div class="footer-section">
+        <div class="footer-logo">
+          <span class="footer-logo-icon">🚗</span>
+          <span>Auto Finance Carsales</span>
+        </div>
+        <div class="footer-about">
+          <p>Your premier destination for affordable luxury and high-performance vehicles. We provide quality pre-owned cars with thorough inspections.</p>
+          <div class="social-links">
+            <a href="https://t.me/carsforsaleunder3000" class="social-link" aria-label="Telegram"> <i class="fab fa-telegram contact-icon"></i></a>
+            <a href="Sac5awosangrooney@gmail.com" class="social-link" aria-label="Email"> <i class="fas fa-envelope contact-icon"></i></a>
+          </div>
+        </div>
+      </div>
+  
+     
+  
+      <!-- Newsletter -->
+      <div class="footer-section newsletter">
+        <h3 class="footer-heading">Newsletter</h3>
+        <p>Subscribe to receive updates on new arrivals, special offers, and automotive tips.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" class="newsletter-input" placeholder="Your email address" required>
+          <button type="submit" class="newsletter-btn">
+            <i class="fas fa-paper-plane"></i><a href="Sac5awosangrooney@gmail.com"></a>
+          </button>
+        </form>
+        <div id="newsletterMessage" class="newsletter-message"></div>
+      </div>
+    </div>
+  
+    <div class="footer-bottom">
+      <p>&copy; <span id="currentYear"></span> Auto Finance Carsales. All Rights Reserved. |
+        <a href="privacy.html">Privacy Policy</a> |
+        <a href="terms.html">Terms of Service</a>
+      </p>
+    </div>
+  </footer>
+
+    <script>
+      
+        // Sample car data (this should match your inventory data)
+        const cars = [
+            {
+                id: 1,
+                make: "dodge",
+                model: "Durango SRT",
+                year: 2018,
+                price: 4000,
+                downPayment: 500,
+                monthlyPayment: 200,
+                mileage: 237708,
+                type: "sedan",
+                transmission: "automatic",
+                color: "White",
+                fuelType: "gasoline",
+                features: ["Power Windows", "Power Locks", "AM/FM Radio", "Air Conditioning"],
+                images: [
+                    "img/2.jpg", // Exterior
+                    "img/2.1.jpg", // Dashboard
+                    "img/2.2.jpg", // Dashboard
+                     "img/2.3.jpg",
+                    "img/2.4.jpg", // Back seats
+                    "img/2.5.jpg"
+                ],
+                likes: 42,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: false,
+                details: "This 2018 Dodge Durango SRT is in good running condition with a clean interior. The 2.4L 4-cylinder engine runs smoothly and the automatic transmission shifts properly. Recent maintenance includes new brakes and tires."
+            },
+            {
+                id: 2,
+                make: "lexus",
+                model: "LS500h",
+                year: 2018,
+                price: 2000,
+                downPayment: 300,
+                monthlyPayment: 150,
+                mileage:  38000,
+                type: "sedan",
+                transmission: "automatic",
+                color: "Liquid Platinum Paint",
+                fuelType: "gasoline",
+                features: ["Leather Seats", "Navigation","Sunroof","LED Exterior Lighting", "Parking Sensors"],
+                images: [
+                    "img/1.jpg", // Exterior
+                    "img/1.1.jpg", // Dashboard
+                    "img/1.2.jpg", // Dashboard
+                     "img/1.3.jpg",
+                    "img/1.4.jpg", // Back seats
+                    "img/1.5.jpg"
+                ],
+                likes: 42,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: false,
+                details: "Black Leather Upholstery, Multi Stage Hybrid Transmission, 20 Alloy Wheels,Adjustable Air Suspension,Climatized Front Seats w/Massage,Heated & Ventilated Rear Seats,Head-Up Display,12.3 Touchscreen Infotainment System"
+            },
+            {
+                id: 3,
+                make: "kia",
+                model: "Optima",
+                year: 2013,
+                price: 1500,
+                downPayment: 300,
+                monthlyPayment: 200,
+                mileage:  88000,
+                type: "sedan",
+                transmission: "automatic",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["Leather Seats", "Navigation","Navigation", "Backup Camera"],
+                images: [
+                     "img/3.jpg",
+                  "img/3.1.jpg",
+                  "img/3.2.jpg",
+                  "img/3.3.jpg",
+                  "img/3.4.jpg",
+                  "img/3.5.jpg",
+                ],
+                likes: 68,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: false,
+                details: "Leather interior,1 owner,Clean title ,Engine and transmission works perfectly ,Fully loaded ,New tires and brakes,No issues,Runs smoothly,Super clean,No mechanical issues "
+            },
+            {
+                id: 4,
+                make: "Nissan",
+                model: "altima",
+                year: 2012,
+                price: 1500,
+                downPayment: 200,
+                monthlyPayment: 150,
+                mileage: 72000,
+                type: "sedan",
+                transmission: "automatic",
+                color: "White",
+                fuelType: "hybrid",
+                features: ["Leather Seats", "Navigation","Sunroof", "Backup Camera", "Bluetooth","Push start","Leather seat"],
+                images:[
+                   "img/4.jpg",
+                  "img/4.1.jpg",
+                  "img/4.2.jpg",
+                  "img/4.3.jpg",
+                  "img/4.4.jpg",
+                   ],
+                likes: 29,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: true,
+                details: "Leather interior, sunroof, premium sound system,Black Leather Upholstery, Multi Stage Hybrid Transmission, 20 Alloy Wheels,Adjustable Air Suspension,Climatized Front Seats w/Massage,Heated & Ventilated Rear Seats,Head-Up Display,12.3 Touchscreen Infotainment System"
+            },
+            {
+                id: 5,
+                make: "Chevrole",
+                model: "SS Sedan",
+                year: 2015,
+                price: 2000,
+                downPayment: 300,
+                monthlyPayment: 150,
+                mileage: 38000,
+                type: "sedan",
+                transmission: "automatic",
+                color: "silver",
+                fuelType: "hybrid",
+                features: ["Leather Seats","Navigation","Magnuson 2650 Supercharger","Nick Williams 120mm Throttle Body"],
+                images:[
+                  "img/5.jpg",
+                  "img/5.1.jpg",
+                  "img/5.2.jpg",
+                  "img/5.3.jpg",
+                  "img/5.4.jpg",
+                  "img/5.5.jpg",
+                  "img/5.6.jpg",
+                  "img/5.7.jpg",
+                   ],
+                likes: 98,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: true,
+                details: "Leather interior, One owner, no accidents, Fuel System:Injector Dynamics ID1300 Fuel Injectors,Fore Innovations Triple Pump Fuel System w/ 255lph Pumps ,Exhaust,Drivetrain,Built 6L80E "
+            },
+            {
+                id: 6,
+                make: "Dodge",
+                model: "charger rt",
+                year: 2018,
+                price: 2500,
+                downPayment: 300,
+                monthlyPayment: 200,
+                mileage: 78000,
+                type: "sedan",
+                transmission: "automatic",
+                color: "blue",
+                fuelType: "hybrid",
+                features: ["Leather Seats", "Navigation", "Backup Camera","Parking Sensors"],
+                images:[
+                  "img/6.jpg",
+                  "img/6.1.jpg",
+                  "img/6.2.jpg",
+                  "img/6.3.jpg",
+                  "img/6.4.jpg",
+                   ],
+                likes: 67,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: true,
+                details: "runs and drives out great,Tinted all the way around ,stock exhaust ,Heated mirrors ,Heated seats,Runs and drive great,No mechanical issues "
+            },
+            {
+                id: 7,
+                make: "Toyota",
+                model: "camry TRD",
+                year:2020,
+                price: 2000,
+                downPayment: 300,
+                monthlyPayment: 250,
+                mileage: 91000,
+                type: "sedan",
+                transmission: "automatic",
+                color: "black",
+                fuelType: "hybrid",
+                features: ["Leather seat", "Navigation","V6 over 300hp"],
+                images:[
+                  "img/7.jpg",
+                  "img/7.1.jpg",
+                  "img/7.2.jpg",
+                  "img/7.3.jpg",
+                  "img/7.4.jpg",
+                   ],
+                likes: 58,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: true,
+                details: "runs and drives out great,Tinted all the way around ,Runs and drive great,No mechanical issues "
+            },
+            {
+               id: 8,
+                make: "chrysler",
+                model: "300 · Srt Hellcat",
+                year: 2015,
+                price: 2000,
+                downPayment: 300,
+                monthlyPayment: 160,
+                mileage: 23000,
+                type: "sedan",
+                transmission: "atomatic",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["Leather seat", "sunroof", "Navigation", "Bluetooth"],
+                images:[
+                  "img/8.jpg",
+                  "img/8.1.jpg",
+                  "img/8.2.jpg",
+                  "img/8.3.jpg",
+                  "img/8.4.jpg",
+                   ],
+                likes: 34,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Like new,Trim,Clean title,Runs great ,Srt Hellcat,This vehicle has no significant damage or problems."
+            },
+             {
+                id: 9,
+                make: "dodge",
+                model: "Charger ScatPack SRT",
+                year: 2019,
+                price: 3000,
+                downPayment: 400,
+                monthlyPayment: 290,
+                mileage: 60000,
+                type: "suv",
+                transmission: "automatic",
+                color: "white",
+                fuelType: "hybrid",
+                features: ["Navigation","Blindspot Sensor", "Backup Camera","Power tint windows","Bluetooth"],
+                images:[
+                  "img/9.jpg",
+                  "img/9.1.jpg",
+                  "img/9.2.jpg",
+                  "img/9.3.jpg",
+                  "img/9.4.jpg",
+                   ],
+                likes: 47,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Hybrid model, excellent fuel economy,Clean title,6.4L V8,Good airbags,Paddles Shifters,Stability Control,Traction Control,,Uconnect,Fog lights,Rear Spoiler,More extras"
+            },
+            {
+                id: 10,
+                make: "jeep",
+                model: "Grand Cherokee SRT",
+                year: 2019,
+                price: 2000,
+                downPayment: 350,
+                monthlyPayment: 210,
+                mileage: 66500,
+                type: "suv",
+                transmission: "automatic",
+                color: "Granite Crystal Metallic",
+                fuelType: "gasoline",
+                features: ["Leather","8-Speed","Engine,6.4L V8","sunroof"],
+                images:[
+                  "img/10.jpg",
+                  "img/10.1.jpg",
+                  "img/10.2.jpg",
+                  "img/10.3.jpg",
+                  "img/10.4.jpg",
+                  "img/10.5.jpg",
+                  "img/10.6.jpg",
+                   ],
+                likes: 72,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: false,
+                details: ",Drivetrain:4WD/AWD,Body Style:SUV/Crossover,Exterior Color:Granite Crystal Metallic,Interior Color:Black/Sepia,Clean"
+            },
+             {
+                id: 11,
+                make: "chrysler",
+                model: "300C Base",
+                year: 2014,
+                price: 2799,
+                downPayment: 370,
+                monthlyPayment: 240,
+                mileage: 150461,
+                type: "coupe",
+                transmission: "automatic",
+                color: "White",
+                fuelType: "gasoline",
+                features: ["Leather seat", "Navigation","8-Speed A/T","292.0HP"],
+                images:[
+                  "img/11.jpg",
+                  "img/11.1.jpg",
+                  "img/11.2.jpg",
+                  "img/11.3.jpg",
+                  "img/11.4.jpg",
+                   ],
+                likes: 63,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Interior color:Beige,Exterior color:White,Drivetrain,Rear-wheel Drive,MPG / fuel type:19 - 30 / Gasoline,Transmission,Engine: 3.6L V6 Cylinder:Engine Gasoline Fuel,VIN:2C3CCAEG7EH310234"
+            },
+             {
+                id: 12,
+                make: "bmw",
+                model: "3 series",
+                year: 2009,
+                price: 4000,
+                downPayment: 320,
+                monthlyPayment: 200,
+                mileage: 100000,
+                type: "sedan",
+                transmission: "manual",
+                color: "space gray metallic",
+                fuelType: "gasoline",
+                features: ["Leather", "Navigation", "6 speed", "Backup Camera"],
+                images:[
+                  "img/12.jpg",
+                  "img/12.1.jpg",
+                  "img/12.2.jpg",
+                  "img/12.3.jpg",
+                  "img/12.5.jpg",
+                  "img/12.4.jpg",
+                   ],
+                likes: 51,
+                isLiked: false,
+                isFeatured: true,
+                isReserved: false,
+                details: "Drivetrain:Rear-Wheel drive,Interior color:Black,Exterior color:space gray metallic, clean(FL)"
+            },
+             {
+                id: 13,
+                make: "lexus",
+                model: "LS 430",
+                year: 2002,
+                price: 2000,
+                downPayment: 200,
+                monthlyPayment: 140,
+                mileage: 65000,
+                type: "sedan",
+                transmission: "automatic",
+                color: "black",
+                fuelType: "hybrid",
+                features: ["Backup Camera","5-speed","Engine:4.3L V8"],
+                images:[
+                  "img/13.jpg",
+                  "img/13.1.jpg",
+                  "img/13.2.jpg",
+                  "img/13.3.jpg",
+                  "img/13.4.jpg",
+                  "img/13.5.jpg",
+                   ],
+                likes: 28,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details:"Drivetrain:Rear-Wheel drive,Interior color:Ecru,Exterior color:Black, clean(FL)"
+            },
+             {
+                id: 14,
+                make: "nissan",
+                model: "Titan SE 4x4",
+                year: 2004,
+                price: 3500,
+                downPayment: 400,
+                monthlyPayment: 240,
+                mileage: 91000,
+                type: "truck",
+                transmission: "automated",
+                color: "Radiant sliver",
+                fuelType: "gasoline",
+                features: ["5-speed","4WD/AWD"],
+                images:[
+                  "img/14.jpg",
+                  "img/14.1.jpg",
+                  "img/14.2.jpg",
+                  "img/14.3.jpg",
+                  "img/14.4.jpg",
+                  "img/14.5.jpg",
+                  "img/14.6.jpg",
+                   ],
+                likes: 15,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:4WD/AWD,Interior color:Gray,Exterior color:Radiant sliver, clean(FL)"
+            },
+            {
+                id: 15,
+                make: "toyota",
+                model: "MR2 Spyder",
+                year: 2000,
+                price: 2322,
+                downPayment: 200,
+                monthlyPayment: 140,
+                mileage: 121200,
+                type: "convertible",
+                transmission: "manual",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["6-speed","Engine:2.4L I4"],
+                images:[
+                  "img/15.jpg",
+                  "img/15.1.jpg",
+                  "img/15.2.jpg",
+                  "img/15.3.jpeg",
+                  "img/15.4.jpeg",
+                  "img/15.5.jpeg",
+                  "img/15.6.jpeg",
+                  "img/15.7.jpeg",
+                  "img/15.7.jpg",
+                   ],
+                likes: 55,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:Rear-Wheel drive,Interior color:Black,Exterior color:Black, clean(CA)"
+            },
+             {
+                id: 16,
+                make: "mercedes",
+                model: "Benz SL550",
+                year: 2007,
+                price: 5000,
+                downPayment: 300,
+                monthlyPayment: 200,
+                mileage: 63200,
+                type: "convertible",
+                transmission: "automatic",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["7-speed","Engine:5.5L V8"],
+                 images:[
+                  "img/16.jpg",
+                  "img/16.1.jpg",
+                  "img/16.2.jpg",
+                  "img/16.3.jpg",
+                  "img/16.4.jpg",
+                  "img/16.5.jpg",
+                  "img/16.6.jpg",
+                  "img/16.7.jpeg",
+                  "img/16.8.jpeg",
+                   ],
+                likes: 105,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:Rear-Wheel drive,Interior color:Almond,Exterior color:Black, clean(CA)"
+            },
+             {
+                id: 17,
+                make: "mercedes",
+                model: "Benz S600",
+                year: 2011,
+                price: 4500,
+                downPayment: 350,
+                monthlyPayment: 180,
+                mileage: 91800,
+                type: "sedan",
+                transmission: "automatic",
+                color: "White",
+                fuelType: "gasoline",
+                features: ["5-speed","Engine:5.5L Turbocharged V12"],
+                images:[
+                  "img/17.jpg",
+                  "img/17.1.jpg",
+                  "img/17.2.jpg",
+                  "img/17.3.jpg",
+                  "img/17.4.jpg",
+                  "img/17.5.jpg",
+                  "img/17.6.jpg",
+                  "img/17.7.jpg",
+                   ],
+                likes: 85,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:Rear-Wheel drive,Interior color:White/Black,Exterior color:Diamond White Metallic, clean(CA)"
+            },
+             {
+                id: 18,
+                make: "ford",
+                model: "Mustang GT Coupe",
+                year: 2011,
+                price: 2500,
+                downPayment: 200,
+                monthlyPayment: 140,
+                mileage: 129500,
+                type: "coupe",
+                transmission: "manual",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["6-speed","Engine:5.0L V8"],
+               images:[
+                  "img/18.jpg",
+                  "img/18.1.jpg",
+                  "img/18.2.jpg",
+                  "img/18.3.jpg",
+                  "img/18.4.jpg",
+                  "img/18.5.jpg",
+                  "img/18.6.jpg",
+                  "img/18.7.jpg",
+                   ],
+                likes: 55,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:Rear-Wheel drive,Interior color:Charoal Black,Exterior color:Black, clean(CA)"
+            },
+            {
+                id: 19,
+                make: "audi",
+                model: "Q7 TDI",
+                year:2015 ,
+                price: 4580,
+                downPayment: 350,
+                monthlyPayment: 240,
+                mileage: 88700,
+                type: "suv",
+                transmission: "automatic",
+                color: "black",
+                fuelType: "gasoline",
+                features: ["8-speed","Engine:3.0L V6"],
+                images:[
+                  "img/19.jpg",
+                  "img/19.1.jpg",
+                  "img/19.2.jpg",
+                  "img/19.3.jpg",
+                  "img/19.4.jpg",
+                  "img/19.5.jpg",
+                  "img/19.6.jpg",
+                  "img/19.7.jpg",
+                   ],
+                likes: 75,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:4WD/AWD,Interior color:Black,Exterior color:Orca Black Metallic, clean(FL)"
+            },
+            {
+                id: 20,
+                make: "audi",
+                model: "RS3",
+                year: 2019,
+                price: 6000,
+                downPayment: 400,
+                monthlyPayment: 250,
+                mileage: 81200,
+                type: "sedan",
+                transmission: "automatic",
+                color: "white",
+                fuelType: "gasoline",
+                features: ["7-speed","Engine:2.5L Turbocharged I5"],
+               images:[
+                  "img/20.jpg",
+                  "img/20.1.jpg",
+                  "img/20.2.jpg",
+                  "img/20.3.jpg",
+                  "img/20.4.jpg",
+                  "img/20.5.jpg",
+                  "img/20.6.jpeg",
+                  "img/20.6.jpg",
+                   ],
+                likes: 155,
+                isLiked: false,
+                isFeatured: false,
+                isReserved: false,
+                details: "Good condition,Drivetrain:4WD/AWD,Interior color:Black,Exterior color:Glacier White Metallic, clean(CA)"
+            },
+        ];
+
+        // Helper function to capitalize first letter
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        // Get car ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const carId = parseInt(urlParams.get('id'));
+
+        // Find the selected car
+        const selectedCar = cars.find(car => car.id === carId);
+
+        // Function to render car details
+        function renderCarDetails(car) {
+            if (!car) {
+                document.getElementById('vehicleContainer').innerHTML = `
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>Vehicle not found. Please return to the inventory page.</p>
+                        <a href="inventory.html" class="back-link">Back to Inventory</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Generate stock number
+            const stockNumber = `${car.make.toUpperCase().substring(0, 3)}${car.year.toString().substring(2)}${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+
+            // Create HTML for the selected car
+            const carHTML = `
+                <!-- Image Gallery -->
+                <div class="gallery-container">
+                    <div class="gallery-slides" id="gallerySlides">
+                        ${car.images.map(img => `
+                            <div class="gallery-slide">
+                                <img src="${img}" alt="${car.year} ${car.make} ${car.model}">
+                            </div>
+                        `).join('')}
+                    </div>
+                  
+                    <div class="gallery-nav">
+                        <button id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                        <button id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+              
+                <div class="gallery-thumbnails" id="galleryThumbnails">
+                    ${car.images.map((img, index) => `
+                        <div class="gallery-thumbnail ${index === 0 ? 'active' : ''}">
+                            <img src="${img}" alt="Thumbnail ${index + 1}">
+                        </div>
+                    `).join('')}
+                </div>
+              
+                <!-- Vehicle Info -->
+                <div class="vehicle-info">
+                    <div class="vehicle-header">
+                        <div>
+                            ${car.isFeatured ? '<span class="vehicle-badge">Featured</span>' : ''}
+                            ${car.isReserved ? '<span class="vehicle-badge reservation-badge">Reserved</span>' : ''}
+                            <h1 class="vehicle-title">${car.year} ${capitalizeFirstLetter(car.make)} ${capitalizeFirstLetter(car.model)}</h1>
+                        </div>
+                        <div class="vehicle-price">$${car.price.toLocaleString()}</div>
+                    </div>
+                  
+                    <div class="vehicle-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>${car.mileage.toLocaleString()} miles</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-car"></i>
+                            <span>${capitalizeFirstLetter(car.transmission)} Transmission</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-gas-pump"></i>
+                            <span>${capitalizeFirstLetter(car.fuelType)}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-paint-brush"></i>
+                            <span>${capitalizeFirstLetter(car.color)}</span>
+                        </div>
+                        
+                    </div>
+                  
+                    <!-- Pricing Section -->
+                    <div class="pricing-section">
+                        <h3>Payment Options</h3>
+                        <div class="pricing-grid">
+                            <div class="pricing-card">
+                                <div class="pricing-title">Cash Price</div>
+                                <div class="pricing-value price">$${car.price.toLocaleString()}</div>
+                            </div>
+                            <div class="pricing-card">
+                                <div class="pricing-title">Down Payment</div>
+                                <div class="pricing-value">$${car.downPayment.toLocaleString()}</div>
+                            </div>
+                            <div class="pricing-card">
+                                <div class="pricing-title">Monthly Payment</div>
+                                <div class="pricing-value">$${car.monthlyPayment.toLocaleString()}</div>
+                            </div>
+                            ${car.isReserved ? `
+                            <div class="pricing-card">
+                                <div class="pricing-title">Status</div>
+                                <div class="pricing-value">Reserved</div>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                  
+                    <!-- Features Section -->
+                    <div class="features-section">
+                        <h3>Key Features</h3>
+                        <div class="features-grid">
+                            ${car.features.map(feature => `
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>${feature}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                  
+                    <!-- Vehicle Description -->
+                    <div class="description-section">
+                        <h3>Vehicle Description</h3>
+                        <p>${car.details}</p>
+                    </div>
+                  
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        
+                        <a href="payment.html?id=${car.id}" class="action-btn buy-btn">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </a>
+                    </div>
+                </div>
+            `;
+          
+            document.getElementById('vehicleContainer').innerHTML = carHTML;
+          
+            // Initialize gallery slider
+            initGallerySlider();
+        }
+      
+        // Initialize gallery slider
+        function initGallerySlider() {
+            const gallerySlides = document.getElementById('gallerySlides');
+            const thumbnails = document.querySelectorAll('.gallery-thumbnail');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentSlide = 0;
+            const slideCount = document.querySelectorAll('.gallery-slide').length;
+          
+            function updateGallery() {
+                gallerySlides.style.transform = `translateX(-${currentSlide * 100}%)`;
+              
+                // Update active thumbnail
+                thumbnails.forEach((thumb, index) => {
+                    thumb.classList.toggle('active', index === currentSlide);
+                });
+            }
+          
+            // Thumbnail click
+            thumbnails.forEach((thumb, index) => {
+                thumb.addEventListener('click', () => {
+                    currentSlide = index;
+                    updateGallery();
+                });
+            });
+          
+            // Previous button
+            prevBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+                updateGallery();
+            });
+          
+            // Next button
+            nextBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide + 1) % slideCount;
+                updateGallery();
+            });
+          
+            // Auto-rotate slides (optional)
+            let slideInterval = setInterval(() => {
+                currentSlide = (currentSlide + 1) % slideCount;
+                updateGallery();
+            }, 5000);
+          
+            // Pause on hover
+            gallerySlides.parentElement.addEventListener('mouseenter', () => {
+                clearInterval(slideInterval);
+            });
+          
+            gallerySlides.parentElement.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(() => {
+                    currentSlide = (currentSlide + 1) % slideCount;
+                    updateGallery();
+                }, 5000);
+            });
+        }
+      
+        // Initialize the page
+        if (carId) {
+            renderCarDetails(selectedCar);
+        } else {
+            document.getElementById('vehicleContainer').innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <p>No vehicle specified. Please select a vehicle from our inventory.</p>
+                    <a href="inventory.html" class="back-link">View Inventory</a>
+                </div>
+            `;
+        }
+      
+        // Update copyright year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+      
+        // Newsletter form
+        document.getElementById('newsletterForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const messageEl = document.getElementById('newsletterMessage');
+            messageEl.textContent = 'Thank you for subscribing!';
+            messageEl.style.color = 'var(--success)';
+            this.reset();
+          
+            setTimeout(() => {
+                messageEl.textContent = '';
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

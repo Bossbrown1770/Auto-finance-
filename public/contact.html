@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | AutoElite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+  :root {
+    --primary: #e63946;
+          --primary-light: #ff758f;
+          --primary-dark: #c1121f;
+          --secondary: #457b9d;
+          --dark: #1d3557;
+          --light: #f8f9fa;
+          --gray: #6c757d;
+          --light-gray: #e9ecef;
+          --border: #dee2e6;
+          --success: #52b788;
+          --warning: #ffc107;
+
+   /* Typography */
+   --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          --font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+         
+          /* Spacing */
+          --space-xs: 0.25rem;
+          --space-sm: 0.5rem;
+          --space-md: 1rem;
+          --space-lg: 1.5rem;
+          --space-xl: 2rem;
+         
+          /* Shadows */
+          --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+          --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+          --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+}
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    background-color: #f9f9f9;
+}
+   /* Navbar Styles */
+   .navbar {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+       
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+       
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+            text-decoration: none;
+        }
+       
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+       
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+       
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+       
+        .nav-links a:hover {
+            color: var(--primary-light);
+        }
+       
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+       
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+       
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+       
+        .auth-buttons a {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+       
+        .login-btn {
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+       
+        .login-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+       
+        .register-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+       
+        .register-btn:hover {
+            background-color: var(--primary-dark);
+        }
+       
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+       
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background-color: black;
+        }
+        .nav-links  .live {
+          color: var(--primary-light);
+          font-weight: 600;
+          transition: all 0.3s ease;
+          transform: translateY(-2px);
+        }
+        .nav-links  .live::after{
+          width: 100%;
+          background-color: var(--primary-light);
+        }
+        
+    /* Paste all your existing CSS here */
+    /* Add these new styles for the contact page */
+   
+    .contact-hero {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1583&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 6rem 1rem;
+      margin-bottom: 2rem;
+    }
+   
+    .contact-hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+   
+    .contact-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+   
+    .contact-info {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+   
+    .contact-title {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+   
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+   
+    .contact-icon {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin-top: 0.3rem;
+    }
+   
+    .contact-details h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+      color: var(--dark);
+    }
+   
+    .contact-details p, .contact-details a {
+      color: var(--gray);
+      text-decoration: none;
+    }
+   
+    .contact-details a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+   
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+   
+    .hours-table tr {
+      border-bottom: 1px solid var(--border);
+    }
+   
+    .hours-table tr:last-child {
+      border-bottom: none;
+    }
+   
+    .hours-table td {
+      padding: 0.8rem 0;
+    }
+   
+    .hours-table td:first-child {
+      font-weight: 500;
+    }
+   
+    .contact-form {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+   
+    .form-title {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+    }
+   
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+   
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+   
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+    }
+   
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+   
+    .submit-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+   
+    .submit-btn:hover {
+      background-color: var(--primary-dark);
+    }
+   
+    .map-container {
+      height: 400px;
+      margin-top: 2rem;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+   
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+   /* Footer Enhancements */
+.footer {
+  background-color: var(--dark);
+  color: white;
+  padding: 3rem 1rem;
+  position: relative;
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.footer-section {
+  margin-bottom: 1.5rem;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.footer-logo-icon {
+  font-size: 2rem;
+  color: var(--primary);
+}
+
+.footer-about p {
+  color: var(--light-gray);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.social-link:hover {
+  background-color: var(--primary);
+  transform: translateY(-3px);
+}
+
+.footer-heading {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+  color: white;
+}
+
+.footer-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background-color: var(--primary);
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+  color: var(--light-gray);
+  text-decoration: none;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
+
+.footer-links a i {
+  width: 20px;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.newsletter p {
+  color: var(--light-gray);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-family: inherit;
+}
+
+.newsletter-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.newsletter-input:focus {
+  outline: 2px solid var(--primary);
+}
+
+.newsletter-btn {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1rem;
+}
+
+.newsletter-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.newsletter-message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  min-height: 20px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--light-gray);
+  font-size: 0.9rem;
+}
+
+.footer-bottom a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-bottom a:hover {
+  color: var(--primary-light);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+ 
+  .footer-section {
+    margin-bottom: 1rem;
+  }
+ 
+  .footer-heading {
+    margin-bottom: 1rem;
+  }
+ 
+  .newsletter-form {
+    flex-direction: column;
+  }
+ 
+  .newsletter-btn {
+    padding: 0.8rem;
+  }
+}
+    /* Paste all your existing CSS here */
+   
+   
+    @media (max-width: 768px) {
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+     
+      .contact-hero h1 {
+        font-size: 2.2rem;
+      }
+      .hamburger {
+    display: block;
+  }
+ 
+  .nav-links {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: var(--dark);
+    flex-direction: column;
+    gap: 0;
+    padding: 1rem 0;
+    clip-path: circle(0px at 90% -10%);
+    transition: clip-path 0.5s ease-out;
+    pointer-events: none;
+  }
+ 
+  .nav-links.active {
+    clip-path: circle(1000px at 90% -10%);
+    pointer-events: all;
+  }
+ 
+  .nav-links a {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+  }
+ 
+  .auth-buttons {
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem;
+  }
+ 
+  .auth-buttons a {
+    width: 100%;
+    text-align: center;
+  }
+    }
+  </style>
+</head>
+<body>
+ 
+  <!-- Same navbar as your inventory page -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-car logo-icon"></i>
+        <span>Auto Finance Carsales</span>
+    </a>
+      <div class="nav-links" id="navLinks">
+        <a href="home.html"><i class="fas fa-home"></i> Home</a>
+        <a href="inventory.html"><i class="fas fa-car"></i> Inventory</a>
+        <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+       <div class="live"><a href="contact.html"><i class="fas fa-envelope "></i> Contact</a></div>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+          <a href="register.html" class="register-btn"><i class="fas fa-user-plus"></i> Register</a>
+        </div>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </nav>
+
+  <section class="contact-hero">
+    <h1>We'd Love to Hear From You</h1>
+    <p>Our team is ready to assist you with any questions about our vehicles or services</p>
+  </section>
+
+  <div class="contact-container">
+    <div class="contact-info">
+      <h2 class="contact-title">
+        <i class="fas fa-map-marker-alt"></i>
+        Contact Information
+      </h2>
+     
+      <div class="contact-item">
+        <i class="fas fa-phone contact-icon"></i>
+        <div class="contact-details">
+          <h3>Phone</h3>
+          <p><a href="tell:+1470-499-8139">(+1)470-499-8139</a></p>
+        </div>
+      </div>
+     
+      <div class="contact-item">
+        <i class="fas fa-envelope contact-icon"></i>
+        <div class="contact-details">
+          <h3>Email </h3>
+          <p><a href="Sac5awosangrooney@gmail.com">Sac5awosangrooney@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <i class="fab fa-telegram contact-icon"></i>
+        <div class="contact-details">
+          <h3>Telegram</h3>
+          <p><a href="https://t.me/carsforsaleunder3000">carsforsaleunder3000</a></p>
+        </div>
+      </div>
+     
+      <div class="contact-item">
+        <i class="fas fa-clock contact-icon"></i>
+        <div class="contact-details">
+          <h3>Business Hours</h3>
+          <table class="hours-table">
+            <tr>
+              <td>Monday - Friday</td>
+              <td>9:00 AM - 7:00 PM</td>
+            </tr>
+            <tr>
+              <td>Saturday</td>
+              <td>9:00 AM - 6:00 PM</td>
+            </tr>
+            <tr>
+              <td>Sunday</td>
+              <td>11:00 AM - 5:00 PM</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+     
+     
+     
+      
+    </div>
+   
+    <div class="contact-form">
+      <h2 class="form-title">Send Us a Message</h2>
+      <form id="messageForm">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" placeholder="John Smith" required>
+        </div>
+       
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="Your Email@gmail.com" required>
+        </div>
+       
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" placeholder="Enter Your number">
+        </div>
+       
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <select id="subject" required>
+            <option value="">Select a subject</option>
+            <option value="general">General Inquiry</option>
+            <option value="sales">Vehicle Sales</option>
+            <option value="service">Service Department</option>
+            <option value="finance">Financing Questions</option>
+            <option value="trade">Trade-In Appraisal</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+       
+        <div class="form-group">
+          <label for="message">Your Message</label>
+          <textarea id="message" placeholder="How can we help you?" required></textarea>
+        </div>
+       
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-paper-plane"></i> Send Message <a href="mailto:Sac5awosangrooney@gmail.com"></a>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <!-- About Section -->
+      <div class="footer-section">
+        <div class="footer-logo">
+          <span class="footer-logo-icon">🚗</span>
+          <span>AutoElite</span>
+        </div>
+        <div class="footer-about">
+          <p>Your premier destination for affordable luxury and high-performance vehicles. We provide quality pre-owned cars with thorough inspections.</p>
+          <div class="social-links">
+            <a href="https://t.me/carsforsaleunder3000" class="social-link" aria-label="Telegram"> <i class="fab fa-telegram contact-icon"></i></a>
+            <a href="Sac5awosangrooney@gmail.com" class="social-link" aria-label="Email"> <i class="fas fa-envelope contact-icon"></i></a>
+          </div>
+        </div>
+      </div>
+  
+  
+     
+  
+      <!-- Newsletter -->
+      <div class="footer-section newsletter">
+        <h3 class="footer-heading">Newsletter</h3>
+        <p>Subscribe to receive updates on new arrivals, special offers, and automotive tips.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" class="newsletter-input" placeholder="Your email address" required>
+          <button type="submit" class="newsletter-btn">
+            <i class="fas fa-paper-plane"></i><a href="Sac5awosangrooney@gmail.com"></a>
+          </button>
+        </form>
+        <div id="newsletterMessage" class="newsletter-message"></div>
+      </div>
+    </div>
+  
+    <div class="footer-bottom">
+      <p>&copy; <span id="currentYear"></span> Auto Finance Carsales. All Rights Reserved. |
+        <a href="privacy.html">Privacy Policy</a> |
+        <a href="terms.html">Terms of Service</a>
+      </p>
+    </div>
+  </footer>
+
+
+  <script>
+     // Mobile menu toggle
+     const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+    }
+    // Highlight active nav link based on current page
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPage = window.location.pathname.split('/').pop() || 'contact.html';
+    const navLinks = document.querySelectorAll('.nav-links a');
+   
+    navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href');
+        if (currentPage === linkPage) {
+            link.classList.add('live');
+        } else {
+            link.classList.remove('live');
+        }
+    });
+});
+
+  
+
+       // Newsletter form submission
+document.getElementById('newsletterForm')?.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const email = this.querySelector('.newsletter-input').value;
+  const messageEl = document.getElementById('newsletterMessage');
+ 
+  // Simulate submission (in a real app, you would use AJAX)
+  setTimeout(() => {
+    messageEl.textContent = 'Thank you for subscribing!';
+    messageEl.style.color = 'var(--success)';
+    this.reset();
+   
+    // Clear message after 5 seconds
+    setTimeout(() => {
+      messageEl.textContent = '';
+    }, 5000);
+  }, 1000);
+});
+
+// Update copyright year
+document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('.footer-links a').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const targetId = this.getAttribute('href');
+    if(targetId.startsWith('#')) {
+      document.querySelector(targetId).scrollIntoView({
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = targetId;
+    }
+  });
+});
+   
+    // Form submission
+    document.getElementById('messageForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+     
+      const submitBtn = document.querySelector('.submit-btn');
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+      submitBtn.disabled = true;
+     
+      // Simulate form submission
+      setTimeout(() => {
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+       
+        setTimeout(() => {
+          // Reset form
+          this.reset();
+          submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+          submitBtn.disabled = false;
+         
+          // Show success message
+          alert('Thank you for your message! We will get back to you soon.');
+        }, 1000);
+      }, 2000);
+    });
+   
+    // Update auth UI
+    function updateAuthUI() {
+      const authButtons = document.getElementById('authButtons');
+      if (!authButtons) return;
+     
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      if (isLoggedIn) {
+        authButtons.innerHTML = `
+          <a href="#" class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </a>
+        `;
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.removeItem('isLoggedIn');
+          updateAuthUI();
+          window.location.href = 'home.html';
+        });
+      }
+    }
+   
+    updateAuthUI();
+  </script>
+</body>
+</html>

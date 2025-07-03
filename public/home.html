@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Finance Carsales - Premium Used Cars</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #e63946;
+            --primary-light: #ff758f;
+            --primary-dark: #c1121f;
+            --secondary: #457b9d;
+            --dark: #1d3557;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border: #dee2e6;
+            --success: #52b788;
+            --warning: #ffc107;
+
+     /* Typography */
+     --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+           
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+           
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+}
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    background-color: #f9f9f9;
+}
+   /* Navbar Styles */
+ /* Navbar Styles */
+  /* Navbar Styles */
+  .navbar {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+       
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+       
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary);
+            text-decoration: none;
+        }
+       
+        .logo-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+       
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+       
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+       
+        .nav-links a:hover {
+            color: var(--primary-light);
+        }
+       
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+       
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+       
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+       
+        .auth-buttons a {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+       
+        .login-btn {
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+       
+        .login-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+       
+        .register-btn {
+            background-color: var(--primary);
+            color: white;
+        }
+       
+        .register-btn:hover {
+            background-color: var(--primary-dark);
+        }
+       
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+       
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background-color: black;
+        }
+        .nav-links  .live {
+          color: var(--primary-light);
+          font-weight: 600;
+          transition: all 0.3s ease;
+          transform: translateY(-2px);
+        }
+        .nav-links  .live::after{
+          width: 100%;
+          background-color: var(--primary-light);
+        }
+        .loading-spinner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255,255,255,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--light-gray);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+/* Footer Styles */
+.footer {
+  background-color: var(--dark);
+  color: white;
+  padding: 3rem 1rem;
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.footer-logo-icon {
+  font-size: 2rem;
+  color: var(--primary);
+}
+
+.footer-about {
+  max-width: 300px;
+}
+
+.footer-about p {
+  color: var(--light-gray);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  transition: all 0.3s;
+}
+
+.social-link:hover {
+  background-color: var(--primary);
+  transform: translateY(-3px);
+}
+
+.footer-heading {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.5rem;
+}
+
+.footer-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background-color: var(--primary);
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+  color: var(--light-gray);
+  text-decoration: none;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
+
+.footer-links a i {
+  width: 20px;
+  text-align: center;
+}
+
+.newsletter p {
+  color: var(--light-gray);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.newsletter-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.newsletter-btn {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.newsletter-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--light-gray);
+  font-size: 0.9rem;
+}
+
+.footer-bottom a {
+  color: var(--primary);
+  text-decoration: none;
+}
+    /* Paste all your existing CSS here */
+    /* Add these new styles for the home page */
+   
+    .hero {
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1583&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 6rem 1rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+   
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+   
+    .hero p {
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+   
+    .search-box {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.9);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+   
+    .search-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+   
+    .search-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+   
+    .search-btn:hover {
+      background-color: var(--primary-dark);
+    }
+   
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 3rem auto;
+      max-width: 1200px;
+      padding: 0 1rem;
+    }
+   
+    .feature-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+   
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+   
+    .feature-icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+   
+    .feature-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+      color: var(--dark);
+    }
+   
+    .feature-desc {
+      color: var(--gray);
+    }
+   
+    .highlight-section {
+      background: var(--light-gray);
+      padding: 3rem 1rem;
+      margin: 3rem 0;
+    }
+   
+    .highlight-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+   
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: var(--primary);
+    }
+   
+    .testimonials {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+   
+    .testimonial-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+   
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+   
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+   
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+   
+    .author-name {
+      font-weight: bold;
+    }
+   
+    .author-title {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+   
+    .cta-section {
+      background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1583&q=80');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      text-align: center;
+      padding: 4rem 1rem;
+      margin: 3rem 0;
+    }
+   
+    .cta-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+   
+    .cta-title {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+   
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    /* Mobile Menu */
+@media (max-width: 768px) {
+  .hamburger {
+                display: block;
+            }
+          
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--dark);
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem 0;
+                clip-path: circle(0px at 90% -10%);
+                transition: clip-path 0.5s ease-out;
+                pointer-events: none;
+            }
+          
+            .nav-links.active {
+                clip-path: circle(1000px at 90% -10%);
+                pointer-events: all;
+            }
+          
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+                padding: 1rem;
+            }
+          
+            .auth-buttons {
+                flex-direction: column;
+                width: 100%;
+                padding: 1rem;
+            }
+          
+            .auth-buttons a {
+                width: 100%;
+                text-align: center;
+            }
+
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+     
+      .hero p {
+        font-size: 1.1rem;
+      }
+     
+      .search-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Same navbar as your inventory page -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-car logo-icon"></i>
+        <span>Auto Finance Carsales</span>
+    </a>
+      <div class="nav-links" id="navLinks">
+        <div class="live">
+        <a href="home.html"><i class=" fas fa-home"></i> Home</a></div>
+        <a href="inventory.html"><i class="fas fa-car"></i> Inventory</a>
+        <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+        <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+        <div class="auth-buttons" id="authButtons">
+          <a href="login.html" class="login-btn"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+          <a href="register.html" class="register-btn"><i class="fas fa-user-plus"></i> Register</a>
+        </div>
+      </div>
+      <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Find Your Perfect Car at Unbeatable Prices</h1>
+    <p>Quality pre-owned vehicles with thorough inspections and competitive financing options</p>
+   
+    <div class="search-box">
+      <div class="search-grid">
+        <div class="filter-group">
+          <label for="home-make" class="filter-label">Make</label>
+          <select id="home-make" class="filter-select">
+            <option value="">All Makes</option>
+            <option value="honda">Honda</option>
+            <option value="toyota">Toyota</option>
+            <option value="ford">Ford</option>
+            <option value="chevrolet">Chevrolet</option>
+            <option value="nissan">Nissan</option>
+            <option value="bmw">BMW</option>
+            <option value="mercedes">Mercedes</option>
+          </select>
+        </div>
+       
+        <div class="filter-group">
+          <label for="home-model" class="filter-label">Model</label>
+          <select id="home-model" class="filter-select">
+            <option value="">All Models</option>
+          </select>
+        </div>
+       
+        <div class="filter-group">
+          <label for="home-price" class="filter-label">Max Price</label>
+          <select id="home-price" class="filter-select">
+            <option value="">Any Price</option>
+            <option value="5000">$5,000</option>
+            <option value="10000">$10,000</option>
+            <option value="15000">$15,000</option>
+            <option value="20000">$20,000</option>
+            <option value="25000">$25,000</option>
+          </select>
+        </div>
+       
+        <button class="search-btn" onclick="window.location.href='inventory.html'">
+          <i class="fas fa-search"></i> Search Inventory
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-shield-alt"></i>
+      </div>
+      <h3 class="feature-title">Certified Pre-Owned</h3>
+      <p class="feature-desc">All our vehicles undergo a rigorous 150-point inspection process to ensure quality and reliability.</p>
+    </div>
+   
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-hand-holding-usd"></i>
+      </div>
+      <h3 class="feature-title">Best Prices</h3>
+      <p class="feature-desc">We offer competitive pricing and regular specials to help you get the best deal possible.</p>
+    </div>
+   
+    <div class="feature-card">
+      <div class="feature-icon">
+        <i class="fas fa-car-alt"></i>
+      </div>
+      <h3 class="feature-title">Wide Selection</h3>
+      <p class="feature-desc">Choose from our extensive inventory of sedans, SUVs, trucks, and luxury vehicles.</p>
+    </div>
+   
+   
+  </div>
+
+  <section class="highlight-section">
+    <div class="highlight-container">
+      <h2 class="section-title">Featured Vehicles</h2>
+     
+      <!-- Use your existing auction grid component -->
+      <div class="auction-grid" id="featuredCars"></div>
+     
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="inventory.html" class="btn">
+          <i class="fas fa-car"></i> View All Inventory
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="highlight-container" style="padding: 0 1rem;">
+    <h2 class="section-title">What My Customers Say</h2>
+   
+    <div class="testimonials">
+      <div class="testimonial-card">
+        <p class="testimonial-text">"Auto Finance Carsales made the car buying process so easy. They found me the perfect SUV at a great price and handled all the paperwork."</p>
+        <div class="testimonial-author">
+          <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Sarah J." class="author-avatar">
+          <div>
+            <div class="author-name">Sarah J.</div>
+            <div class="author-title">Happy Customer</div>
+          </div>
+        </div>
+      </div>
+     
+      <div class="testimonial-card">
+        <p class="testimonial-text">"I was nervous about buying a used car, but the thorough inspection report gave me complete peace of mind. Highly recommend!"</p>
+        <div class="testimonial-author">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael T." class="author-avatar">
+          <div>
+            <div class="author-name">Michael T.</div>
+            <div class="author-title">Satisfied Buyer</div>
+          </div>
+        </div>
+      </div>
+     
+      <div class="testimonial-card">
+        <p class="testimonial-text">"The financing team worked hard to get me approved with my credit situation. I'm so grateful for their help and patience."</p>
+        <div class="testimonial-author">
+          <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Lisa M." class="author-avatar">
+          <div>
+            <div class="author-name">Lisa M.</div>
+            <div class="author-title">Repeat Customer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2 class="cta-title">Ready to Find Your Next Car?</h2>
+      <p>Visit our showroom today or browse our online inventory to find your perfect vehicle.</p>
+     
+      <div class="cta-buttons">
+        <a href="inventory.html" class="btn">
+          <i class="fas fa-car"></i> Browse Inventory
+        </a>
+        <a href="contact.html" class="btn" style="background: white; color: var(--dark);">
+          <i class="fas fa-phone"></i> Contact Me
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <!-- About Section -->
+      <div class="footer-section">
+        <div class="footer-logo">
+          <span class="footer-logo-icon">🚗</span>
+          <span>Auto Finance Carsales</span>
+        </div>
+        <div class="footer-about">
+          <p>Your premier destination for affordable luxury and high-performance vehicles. We provide quality pre-owned cars with thorough inspections.</p>
+          <div class="social-links">
+            <a href="https://t.me/carsforsaleunder3000" class="social-link" aria-label="Telegram"> <i class="fab fa-telegram contact-icon"></i></a>
+            <a href="Sac5awosangrooney@gmail.com" class="social-link" aria-label="Email"> <i class="fas fa-envelope contact-icon"></i></a>
+          </div>
+        </div>
+      </div>
+  
+     
+  
+      <!-- Newsletter -->
+      <div class="footer-section newsletter">
+        <h3 class="footer-heading">Newsletter</h3>
+        <p>Subscribe to receive updates on new arrivals, special offers, and automotive tips.</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" class="newsletter-input" placeholder="Your email address" required>
+          <button type="submit" class="newsletter-btn">
+            <i class="fas fa-paper-plane"></i><a href="Sac5awosangrooney@gmail.com"></a>
+          </button>
+        </form>
+        <div id="newsletterMessage" class="newsletter-message"></div>
+      </div>
+    </div>
+  
+    <div class="footer-bottom">
+      <p>&copy; <span id="currentYear"></span> Auto Finance Carsales. All Rights Reserved. |
+        <a href="privacy.html">Privacy Policy</a> |
+        <a href="terms.html">Terms of Service</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+
+    // Newsletter form submission
+document.getElementById('newsletterForm')?.addEventListener('submit', function(e) {
+  e.preventDefault();
+  const email = this.querySelector('.newsletter-input').value;
+  const messageEl = document.getElementById('newsletterMessage');
+ 
+  // Simulate submission (in a real app, you would use AJAX)
+  setTimeout(() => {
+    messageEl.textContent = 'Thank you for subscribing!';
+    messageEl.style.color = 'var(--success)';
+    this.reset();
+   
+    // Clear message after 5 seconds
+    setTimeout(() => {
+      messageEl.textContent = '';
+    }, 5000);
+  }, 1000);
+});
+
+// Update copyright year
+document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+// Smooth scrolling for anchor links
+document.querySelectorAll('.footer-links a').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const targetId = this.getAttribute('href');
+    if(targetId.startsWith('#')) {
+      document.querySelector(targetId).scrollIntoView({
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = targetId;
+    }
+  });
+});
+    // Display featured cars (top 3)
+    function displayFeaturedCars() {
+      const featuredCars = cars.slice(0, 3);
+      const featuredContainer = document.getElementById('featuredCars');
+     
+      if (featuredCars.length === 0) {
+        featuredContainer.innerHTML = '<p class="no-results">No featured cars available at this time.</p>';
+        return;
+      }
+     
+      featuredCars.forEach(car => {
+        const card = document.createElement('div');
+        card.className = 'auction-card';
+        card.dataset.id = car.id;
+        card.innerHTML = `
+          <div class="car-image-container">
+            ${car.isSold ? '<div class="sold-banner">SOLD</div>' : ''}
+            <div class="car-slideshow"></div>
+            <button class="slideshow-nav slideshow-prev">❮</button>
+            <button class="slideshow-nav slideshow-next">❯</button>
+            <div class="slideshow-controls">
+              ${car.images.map((_, i) => `<div class="slideshow-dot ${i === 0 ? 'active' : ''}"></div>`).join('')}
+            </div>
+          </div>
+          <button class="like-btn ${car.isLiked ? 'liked' : ''}" id="like-btn-${car.id}">♥</button>
+          <span class="like-count" id="like-count-${car.id}">${car.likes}</span>
+          <div class="card-content">
+            <h3 class="car-title">${car.year} ${car.make} ${car.model}</h3>
+            <p class="car-details">${car.details}</p>
+            <p class="location">${car.location}</p>
+            <div class="price-info">
+              <span class="price">$${car.price.toLocaleString()}</span>
+            </div>
+            <div class="action-buttons">
+              <a href="details.html?id=${car.id}" class="details-btn">
+                <i class="fas fa-eye"></i> View Details
+              </a>
+            </div>
+          </div>
+        `;
+        featuredContainer.appendChild(card);
+        initSlideshow(card.querySelector('.car-image-container'), car.images);
+       
+        // Like button event
+        document.getElementById(`like-btn-${car.id}`).addEventListener('click', () => toggleLike(car.id));
+      });
+    }
+   
+    // Mobile menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+      });
+    }
+    // Highlight active nav link based on current page
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPage = window.location.pathname.split('/').pop() || 'home.html';
+    const navLinks = document.querySelectorAll('.nav-links a');
+   
+    navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href');
+        if (currentPage === linkPage) {
+            link.classList.add('live');
+        } else {
+            link.classList.remove('live');
+        }
+    });
+});
+   
+    // Update auth UI
+    function updateAuthUI() {
+      const authButtons = document.getElementById('authButtons');
+      if (!authButtons) return;
+     
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      if (isLoggedIn) {
+        authButtons.innerHTML = `
+          <a href="#" class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </a>
+        `;
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.removeItem('isLoggedIn');
+          updateAuthUI();
+          window.location.href = 'home.html';
+        });
+      }
+    }
+   
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', () => {
+      displayFeaturedCars();
+      updateAuthUI();
+     
+      // Simple model filtering for the home page search
+      const makeSelect = document.getElementById('home-make');
+      const modelSelect = document.getElementById('home-model');
+     
+      const modelsByMake = {
+        honda: ['Accord', 'Civic', 'CR-V', 'Pilot', 'Odyssey'],
+        toyota: ['Camry', 'Corolla', 'RAV4', 'Highlander', 'Sienna'],
+        ford: ['F-150', 'Escape', 'Explorer', 'Mustang', 'Focus'],
+        chevrolet: ['Silverado', 'Equinox', 'Tahoe', 'Malibu', 'Camaro'],
+        nissan: ['Altima', 'Rogue', 'Sentra', 'Pathfinder', 'Maxima'],
+        bmw: ['3 Series', '5 Series', 'X3', 'X5', '7 Series'],
+        mercedes: ['C-Class', 'E-Class', 'GLC', 'GLE', 'S-Class']
+      };
+     
+      makeSelect.addEventListener('change', function() {
+        const make = this.value;
+        modelSelect.innerHTML = '<option value="">All Models</option>';
+       
+        if (make && modelsByMake[make]) {
+          modelsByMake[make].forEach(model => {
+            modelSelect.innerHTML += `<option value="${model.toLowerCase()}">${model}</option>`;
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
