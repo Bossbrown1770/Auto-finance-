@@ -33,10 +33,10 @@
     "validator": "^13.7.0"
     
     "mongodb": "^4.13.0", 
-    "csurf": "^2.0.0",  // Updated from deprecated v1.11.0
-    "supertest": "^9.0.0",  // Upgraded to fix vulnerability
-    "jest": "^29.7.0",  // Updated to avoid old `glob` issues
-    "cssnano": "^6.0.1"  // Updated to latest
+    "csurf": "^2.0.0",
+    "supertest": "^9.0.0",
+    "jest": "^29.7.0", 
+    "cssnano": "^6.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
